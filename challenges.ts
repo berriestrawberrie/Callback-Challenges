@@ -226,26 +226,51 @@ console.log(objectFilter(cities, (city:string) => city.toUpperCase()));
 
 // Should log { London: 'LONDON', Paris: 'PARIS'}
 
-// Challenge 12
+// Challenge 12 ✅
 /* Create a function majority that accepts an array and a callback. The callback will return either true or false. majority will iterate through the array and perform the callback on each element until it can be determined if the majority of the return values from the callback are true. If the number of true returns is equal to the number of false returns, majority should return false.
  */
 // /*** Uncomment these to check your work! ***/
-/*
-const isOdd = function (num) {
+
+const majority = (array:number[],myFunction:any):boolean => {
+  //DECLARE COUNTERS
+  let even:number =0;
+  let odd:number =0;
+  //CHECK EACH VALUE USE CALLBACK TO COUNT EVEN AND ODD
+  array.forEach((value)=> isOdd(value)? even+= 1 : odd+=1);
+
+  if(even>odd){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+const isOdd = function (num:number) {
   return num % 2 === 1;
 };
 console.log(majority([1, 2, 3, 4, 5, 7, 9, 11], isOdd));
 // should log: true
 console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
-*/
 
-// Challenge 13
+
+// Challenge 13 ✅
 /* 
 Create a function prioritize that accepts an array and a callback. The callback will return either true or false. prioritize will iterate through the array and perform the callback on each element, and return a new array, where all the elements that yielded a return value of true come first in the array, and the rest of the elements come second.
 */
 // /*** Uncomment these to check your work! ***/
-/*
-const startsWithS = function (str) {
+
+const prioritize = (array:string[], myFunction: any) =>{
+  //DECLARE EMPTY ARRAYS
+  let first:string[] = [];
+
+  //FILTER THE ARRAY USING THE CALLBACK
+  first = array.filter((data)=>myFunction(data));
+  //CONCATENATE & DELETE DUPS USING SET AND RESTRUCTURE TO ARRAY
+  return Array.from(new Set([...first,...array]));
+
+}
+
+const startsWithS = function (str:string) {
   return str[0] === "s" || str[0] === "S";
 };
 console.log(
@@ -255,7 +280,7 @@ console.log(
   )
 );
 // should log: ["seinfeld", "sunny", "curb", "rickandmorty", "friends"];
-*/
+
 // Challenge 14
 /* 
 Create a function countBy that accepts an array and a callback, and returns an object. countBy will iterate through the array and perform the callback on each element. Each return value from the callback will be saved as a key on the object. The value associated with each key will be the number of times that particular return value was returned.

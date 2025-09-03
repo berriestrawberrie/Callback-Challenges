@@ -158,42 +158,72 @@ console.log(
 
 // should log: { hi: 'HI', bye: 'BYE', later: 'LATER' }
 
-// Challenge 10
+// Challenge 10 ✅
 /* 
 Construct a function multiMap that will accept two arrays: an array of values and an array of callbacks. multiMap will return an object whose keys match the elements in the array of values. The corresponding values that are assigned to the keys will be arrays consisting of outputs from the array of callbacks, where the input to each callback is the key.
 */
-/*
+type multiObj = {[key:string] : string[]};
+
+const multiMap = (array1:string[], array2:any[]):multiObj => {
+  //DECLARE EMPTY OBJECT
+  let obj:multiObj = {};
+  //FOR EACH STRING IN KEY ARRAY
+  for(let i=0; i<array1.length;i++){
+    obj[array1[i]!] = [
+      //USE FUNCTION OF INDEX ON ARRAY KEY i
+      array2[0](array1[i]),
+      array2[1](array1[i]),
+      array2[2](array1[i]),
+    ];
+  }
+  return obj;
+}
+
 console.log(
   multiMap(
     ["catfood", "glue", "beer"],
     [
-      function (str) {
+      function (str:string) {
         return str.toUpperCase();
       },
-      function (str) {
-        return str[0].toUpperCase() + str.slice(1).toLowerCase();
+      function (str:string) {
+        return str[0]!.toUpperCase() + str.slice(1).toLowerCase();
       },
-      function (str) {
+      function (str:string) {
         return str + str;
       },
     ]
   )
 );
-*/
+
 // should log: { catfood: ['CATFOOD', 'Catfood', 'catfoodcatfood'], glue: ['GLUE', 'Glue', 'glueglue'], beer: ['BEER', 'Beer', 'beerbeer'] }
 
-// Challenge 11
+// Challenge 11 ✅
 /* 
 Construct a function objectFilter that accepts an object as the first parameter and a callback function as the second parameter. objectFilter will return a new object. The new object will contain only the properties from the input object such that the property's value is equal to the property's key passed into the callback.
 */
-/* 
+type objType1 = {[key:string] : string}
+const objectFilter = (input:objType ,myFunction:any) => {
+  //DECLARE AN EMPTY OBJECT
+  let obj: objType1 = {};
+  //ITERATE OVER OBJECT KEYS
+  for(let x in input){
+    //USE CALLBACK FOR COMPARISON
+    if( myFunction(x) === input[x]){
+      //??TYPE ISSUE
+      obj[x] = input[x] as string;
+    }
+  }
+  return obj;
+}
+
 const cities = {
   London: "LONDON",
   LA: "Los Angeles",
   Paris: "PARIS",
 };
-console.log(objectFilter(cities, (city) => city.toUpperCase()));
-*/
+console.log(objectFilter(cities, (city:string) => city.toUpperCase()));
+
 // Should log { London: 'LONDON', Paris: 'PARIS'}
 
 // Challenge 12

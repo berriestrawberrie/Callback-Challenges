@@ -24,11 +24,12 @@ const addS = (text:string):string =>{
 console.log(addS("pizza"));
 console.log(addS("bagel"));
 
+// ________________________________________________________________________________________________
 // Challenge 3 ✅
 /* 
 Create a function called map that takes two inputs:
-an array of numbers (a list of numbers)
-a 'callback' function - a function that is applied to each element of the array (inside of the function 'map')
+1. An array of numbers (a list of numbers)
+2. A 'callback' function - a function that is applied to each element of the array (inside of the function 'map')
 Have map return a new array filled with numbers that are the result of using the 'callback' function on each element of the input array.
 */
 type addTwoFunction = (a:number) => number;
@@ -37,57 +38,124 @@ const map = (numbers:number[],myFunction:addTwoFunction):number[] =>{
 }
 console.log(map([1, 2, 3], addTwo));
 
-// Challenge 4
+// Challenge 4 ✅
 /* 
-The function forEach takes an array and a callback, and runs the callback on each element of the array. forEach does not return anything.
+The function forEach takes an array and a callback, and runs the callback on each element of the array. 
+forEach does not return anything.
 */
-// see for yourself if your forEach works!
-//console.log(alphabet);
+let alphabet = "";
+type callbackFunction = (element:any) => void;
+const letters = ["a", "b", "c", "d"];
+//DECLARE A FUNCTION THAT TAKES ARRAY STRING AND CALLBACK
+function forEach(array:string[], callBack: callbackFunction) {
+  for (let i = 0; i < array.length; i++) {
+    callBack(array[i]);
+  }
+}
+const callBack = (element:string):void =>{
+    alphabet = alphabet + element;
+}
+forEach(letters, callBack);
+console.log(alphabet);
 
-// Challenge 5
+// ________________________________________________________________________________________________
+// Challenge 5 ✅
 /* 
-In the first part of this challenge, you're going to rebuild map as mapWith. This time you're going to use forEach inside of mapWith instead of using a for loop.
+Rebuild your map function, this time instead of using a for loop, use your own forEach function that you just defined. 
+Call this new function mapWith.//console.log(mapWith([1, 2, 3], addTwo));
 */
-//console.log(mapWith([1, 2, 3], addTwo));
+const mapWith = (numbers:number[], myFunction: any):number[] =>{
+  return numbers.map(myFunction);
+}
 
-// Challenge 6
+console.log(mapWith([1, 2, 3], addTwo)); //should output [ 3, 4, 5 ]
+
+// Challenge 6 ✅
 /* 
 The function reduce takes an array and reduces the elements to a single value. For example it can sum all the numbers, multiply them, or any operation that you can put into a function.
 */
-//console.log(reduce(nums, add, 0)); //-> 8
+const nums = [4, 1, 3];
+//type addFunction = (a:number, b?:number) => number;
+const reduce = (numbers:number[], add: any, change:number):number=>{
+  let sum: number = 0;
+  for(let i=0;i<numbers.length;i++){
+    sum = sum + add(change, numbers[i]);
+  }
+  return sum;
+}
+const add = function (a:number, b:number) {
+  return a + b;
+};
 
-// Challenge 7
+console.log(reduce(nums, add, 0)); //-> 8
+
+// Challenge 7 ✅
 /* Construct a function intersection that compares input arrays and returns a new array with elements found in all of the inputs. BONUS: Use reduce!
  */
-/*
+
+const intersection = (array1:number[],array2:number[],array3:number[]):number[] => {
+  let result:number[];
+
+    // FILTER ARRAY 1 BY MATCHES IN ARRAY 2
+     result = array1.filter(data => array2.includes(data));
+     //FILTER ARRAY 3 BY PREVIOUS MATCHES
+     result = array2.filter(data=> result.includes(data));
+
+    return result;
+}
+
 console.log(
   intersection([5, 10, 15, 20], [15, 88, 1, 5, 7], [1, 10, 15, 5, 20])
 );
 // should log: [5, 15]
-*/
 
-// Challenge 8
+
+// Challenge 8 ✅
 /* 
 Construct a function union that compares input arrays and returns a new array that contains all elements. If there are duplicate elements, only add it once to the new array. Preserve the order of the elements starting from the first element of the first input array. BONUS: Use reduce!
 */
-//console.log(union([5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]));
+
+const union = <T>(first: T[],second:T[], third:T[]):T[] =>{
+  //USE SPREAD TO CONCATENATE ARRAY 1 & 2
+  //USE THE SET CONSTRUCTOR TO CREATE A COLLECTION OF UNIQUE VALUES
+  // USE ARRAY.FROM TO CONVERT UNIQUE COLLECITON BACK TO ARRAY
+  return Array.from(new Set([...first,...second,...third]));
+
+}
+
+console.log(union([5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]));
 // should log: [5, 10, 15, 88, 1, 7, 100]
 
-// Challenge 9
+// Challenge 9 ✅
 /* 
 Construct a function objOfMatches that accepts two arrays and a callback. objOfMatches will build an object and return it. To build the object, objOfMatches will test each element of the first array using the callback to see if the output matches the corresponding element (by index) of the second array. If there is a match, the element from the first array becomes a key in an object, and the element from the second array becomes the corresponding value.
 */
-/* 
+type objType = {[key:string] : string}
+const objOfMatches = (keys:string[],values:string[], myFunction: any):objType => {
+  //DECLARE AN EMPTY STRING
+   let obj: objType = {};
+  //ASSUMED LENGTHS MATCH
+  for(let i=0; i<keys.length;i++){
+    //COMPARE USING CALLBACK
+    if(myFunction(keys[i])===myFunction(values[i])){
+      obj[keys[i]!] = values[i]!;
+    }else{
+      console.log("no match");
+    }
+  }
+  return obj;
+}
+
 console.log(
   objOfMatches(
     ["hi", "howdy", "bye", "later", "hello"],
     ["HI", "Howdy", "BYE", "LATER", "hello"],
-    function (str) {
+    function (str:string) {
       return str.toUpperCase();
     }
   )
 );
-*/
+
 // should log: { hi: 'HI', bye: 'BYE', later: 'LATER' }
 
 // Challenge 10
